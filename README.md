@@ -1,6 +1,6 @@
 # Technical Assignement for Staking Facilities GmbH
 
-This is the solution for the technical assignment for Staking Facilities GmbH in Munich by Kunic Ismar.
+This is the solution for the technical assignment for Staking Facilities GmbH in Munich by Kunić Ismar.
 
 ## Assignement requirements
 
@@ -40,11 +40,18 @@ https://github.com/paritytech/ansible-galaxy/blob/main/roles/node/README.md
 
 1. Create a user ubuntu with home directory /home/ubuntu on your local server and add it to sudoers
 2. Clone this repository
-3. Run the shell script install_requirements.sh
-4. Navigate to the ansible directory and run the first playbook to configure access to the AWS
-5. Run the second playbook to deploy the required infrastructure in AWS
-6. Run the third playbook to generate EC2 keypair and save it to the user's home directory
-7. Run the fourth playbook to install Polkadot binary and systemd service on the EC2 instances
+3. Run the shell script install_requirements.sh from ansible folder
+4. Run the first playbook (01_kunic_aws_access) to configure access to the AWS
+5. Run the second playbook (02_kunic_terraform) to deploy the required infrastructure in AWS
+6. Run the third playbook (03_kunic_keypair) to generate the private key and save it to the user's home directory
+7. Run the fourth playbook (04_kunic_deploy_polkadot) to install Polkadot binary and systemd service on the EC2 instances
+
+## How to update the Polkadot binary
+
+To update the Polkadot binary you can simply replace the value of node_binary_version variable in the file 04_kunic_deploy_polkadot.yml with the desired version and run the playbook again.
+
+CAUTION:
+If you run into an error while restarting systemd service `error: unexpected argument '--ws-external' found after deploying a new version` you will need to manually remove this parameter from the file /etc/systemd/system/polkadot.service, reload the systemd daemon and start the service again.
 
 ## License
 
@@ -52,5 +59,5 @@ BSD
 
 ## Author Information
 
-Kunic Ismar
+Kunić Ismar
 ismuskuna@gmail.com
