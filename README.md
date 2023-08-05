@@ -38,7 +38,7 @@ https://github.com/paritytech/ansible-galaxy/blob/main/roles/node/README.md
 
 ## How to use this solution
 
-1. Create a user ubuntu with home directory /home/ubuntu on your local server and add it to sudoers
+1. Create a user `ubuntu` with home directory `/home/ubuntu` on your local server and add it to sudoers
 2. Clone this repository
 3. Run the shell script install_requirements.sh from ansible folder
 4. Run the first playbook (01_kunic_aws_access) to configure access to the AWS
@@ -48,7 +48,7 @@ https://github.com/paritytech/ansible-galaxy/blob/main/roles/node/README.md
 
 ## How to update the Polkadot binary
 
-To update the Polkadot binary you can simply replace the value of node_binary_version variable in the file 04_kunic_deploy_polkadot.yml with the desired version and run the playbook again.
+To update the Polkadot binary you can simply replace the value of `node_binary_version` variable in the file 04_kunic_deploy_polkadot.yml with the desired version and run the playbook again.
 
 CAUTION:
 If you run into an error while restarting systemd service `error: unexpected argument '--ws-external' found after deploying a new version` you will need to manually remove this parameter from the file /etc/systemd/system/polkadot.service, reload the systemd daemon and start the service again.
