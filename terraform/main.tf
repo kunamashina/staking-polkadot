@@ -30,15 +30,6 @@ module "vpc" {
   }
 }
 
-# resource "aws_subnet" "main" {
-#   vpc_id     = module.vpc.vpc_id
-#   cidr_block = "10.10.0.0/16"
-
-#   tags = {
-#     Environment = "staking"
-#   }
-# }
-
 module "ssh_service_sg" {
   source  = "terraform-aws-modules/security-group/aws//modules/ssh"
   version = "~> 5.0"
@@ -57,9 +48,8 @@ module "ec2_instance" {
 
   name = "polkadot-fullnode-${each.key}"
 
-  # instance_type          = "c6i.4xlarge"
   ami                         = "ami-04e601abe3e1a910f"
-  instance_type               = "t2.micro"
+  instance_type               = "c6i.4xlarge"
   key_name                    = module.key_pair.key_pair_name
   monitoring                  = true
   vpc_security_group_ids      = [module.ssh_service_sg.security_group_id]
