@@ -1,0 +1,34 @@
+---
+- name: Get private key
+  hosts: localhost
+  tasks:
+    - name: Extract private_key_pem
+      command: jq -r '..|.private_key_pem? // empty' ../terraform/terraform.tfstate
+      changed_when: false
+      register: private_key_pem
+
+    - debug:
+        var: private_key_pem
+
+    - name: Extract private_key name
+      shell: jq -r '..|.key_name? // empty' ../terraform/terraform.tfstate | tail -n 1 
+      changed_when: false
+      register: private_keypair_name
+
+    - debug:
+        var: private_keypair_name
+
+    - name: Ensure SSH directory exists
+      file:
+        path: "/home/ubuntu/.ssh"
+        state: directory
+        mode: '0700'
+        owner: ubuntu
+
+    - name: Write the private key
+      copy:
+        content: "{{ private_key_pem.stdout }}"
+        dest: "/home/ubuntu/.ssh/{{ private_keypair_name.stdout }}.pem"
+        mode: '0600'
+        owner: ubuntu
+

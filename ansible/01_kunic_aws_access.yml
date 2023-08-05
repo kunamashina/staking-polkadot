@@ -1,0 +1,41 @@
+---
+- name: Configure AWS access
+  hosts: localhost
+  vars_prompt:
+    - name: "aws_access_key"
+      prompt: "Enter your AWS Access Key"
+      private: false
+
+    - name: "aws_secret_key"
+      prompt: "Enter your AWS Secret Key"
+      private: false
+  tasks:
+    - name: Create .aws folder
+      ansible.builtin.file:
+        dest: /home/ubuntu/.aws
+        state: directory
+        owner: ubuntu
+
+    - name: Copy content to .aws/credentials
+      ansible.builtin.copy:
+        content: |
+          [default]
+          aws_access_key_id = {{ aws_access_key }}
+          aws_secret_access_key = {{ aws_secret_key }}
+        dest: /home/ubuntu/.aws/credentials
+        mode: 0600
+        owner: ubuntu
+
+    - name: Install required packages
+      ansible.builtin.package:
+        name:
+          - aws-cli
+          - terraform
+          - jq
+
+    - name: Install pip3 requirements
+      ansible.builtin.pip:
+        name:
+          - boto
+          - boto3
+          - botocore

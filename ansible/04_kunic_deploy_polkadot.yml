@@ -1,0 +1,28 @@
+---
+
+- name: Deploy polkadot for Staking Facilities tech assignment in AWS
+  hosts: all
+  vars:
+    # node_database_wipe: true
+    # node_parachain_database_wipe: true
+    node_role: full
+    node_app_name: "polkadot"
+    node_binary_version: "v0.9.39-1"
+    # node_binary_version: "v1.0.0"
+    node_chain: "rococo-local"
+    node_user: "polkadot"
+    node_binary: "https://github.com/paritytech/polkadot/releases/download/{{ node_binary_version }}/polkadot"
+    node_binary_signature: "https://github.com/paritytech/polkadot/releases/download/{{ node_binary_version }}/polkadot.asc"
+  roles:
+    - key_inject
+    - node
+  post_tasks:
+    - name: Make Polkadot available in /usr/bin
+      file:
+        src: "/home/{{ node_user }}/bin/polkadot"
+        dest: /usr/bin/polkadot
+        owner: root
+        group: root
+        state: link
+        mode: 0755
+      tags: [polkadot]

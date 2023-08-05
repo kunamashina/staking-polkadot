@@ -1,0 +1,9 @@
+---
+- name: Deploy AWS resources via terraform
+  hosts: localhost
+  pre_tasks:
+    - name: Init terraform
+      community.general.terraform:
+        project_path: "../terraform"
+        state: "present"
+        force_init: true

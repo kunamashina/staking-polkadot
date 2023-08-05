@@ -1,0 +1,16 @@
+---
+plugin: amazon.aws.aws_ec2
+regions:
+  - eu-central-1
+filters:
+  tag:Environment: staking
+# all:
+#   children:
+#     full_nodes:
+#       hosts:
+#         full1:
+#           ansible_host: polkadot-fullnode-1.staking.com
+#           node_role: full
+#         full2:
+#           ansible_host: polkadot-fullnode-2.staking.com
+#           node_role: full
